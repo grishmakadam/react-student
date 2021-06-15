@@ -1,48 +1,45 @@
-import React from 'react'
-import {Studata} from './Studata.js'
-import './style.css'
-import { Scrollbars } from 'react-custom-scrollbars';
+import React from "react";
+import {Studata} from "./Studata.js";
+import "./style.css";
+import {Scrollbars} from "react-custom-scrollbars";
+import head from "../data/tableHeader";
 
+export const Stutable = ({data, onDelete, sendData}) => {
+  let m = () => {
+    if (data.length !== 0) return true;
+    else return false;
+  };
 
-export const Stutable = ({data,onDelete,sendData}) => {
+  return (
+    <table className="container">
+      <thead className="thead thead-d">
+        {/* Again not sure why li tab was used when it is a table. Would be better to use td,th,tr */}
+        <th>{head.name}</th>
+        <th>{head.roll}</th>
+        <th>{head.addr}</th>
+        <th>{head.phone}</th>
+        {/*i didnt understand y the two lis were needed  */}
+        {/* <li></li>
+               <li></li> */}
+      </thead>
 
-    let head={
-        name:"NAME",
-        roll:"ROLL NO",
-        addr:"ADDRESS",
-        phone:"PHONE",
-    }
-
-   let m=()=>{
-       if(data.length!==0){
-           return true;
-       }
-       else{
-           return false;
-       }
-   }
-
-    return (
-        
-        <div className="container">
-           <div className="thead thead-d">
-               <li>{head.name}</li>
-               <li>{head.roll}</li>
-               <li>{head.addr}</li>
-               <li>{head.phone}</li>
-               <li></li>
-               <li></li>
-           </div>
-
-            {m()?
-           <Scrollbars style={{height:'60vh'}}>
-            {data.map((item)=>
-            
-                    {return <Studata item={item} onDelete={onDelete} sendData={sendData}/>}   
-            )}
-            </Scrollbars>:<div class='thead'>No data to show</div>}
-        
-        </div>
-            
-    )
-}
+      {m() ? (
+        <Scrollbars style={{height: "60vh"}}>
+          {/* adding keys is important it helps the virtual dom to rerender only what is changed */}
+          {data.map((item, i) => {
+            return (
+              <Studata
+                item={item}
+                onDelete={onDelete}
+                sendData={sendData}
+                key={i}
+              />
+            );
+          })}
+        </Scrollbars>
+      ) : (
+        <div class="thead">No data to show</div>
+      )}
+    </table>
+  );
+};

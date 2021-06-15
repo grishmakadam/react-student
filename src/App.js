@@ -1,82 +1,50 @@
-
-import './App.css';
-import {Route,Switch} from 'react-router-dom'
-import {Navbar} from './Components/Navbar.js'
-import {Stutable} from './Components/Stutable'
-import {useState} from 'react'
-import {Add} from './Components/Add'
-import {Search} from './Components/Search'
-import {Update} from './Components/Update'
-import './Components/style.css'
+import "./App.css";
+import {Route, Switch} from "react-router-dom";
+import {Navbar} from "./Components/Navbar.js";
+import {Stutable} from "./Components/Stutable";
+import {useState} from "react";
+import {Add} from "./Components/Add";
+import {Search} from "./Components/Search";
+import "./Components/style.css";
+import AppData from "./data/AppData";
+import updatedata from "./functions/updateData";
+import deletedata from "./functions/deleteData";
+import adddatafn from "./functions/addData";
+import searchData from "./functions/searchData";
 
 function App() {
- 
-  const onUpdate=(k)=>{
-    let m=data.findIndex((x)=>x.roll==k.roll)
-    data[m]=k;
-    setData([...data]);
-  }
- 
-  const onDelete=(item)=>{
-      setData(data.filter(k=>{return k!==item}))
-  }
+  const onUpdate = (k) => {
+    updatedata(data, setData, k);
+  };
 
-  const addData=(data1)=>{
+  const onDelete = (item) => {
+    deletedata(data, setData, item);
+  };
 
-    let pr=new Promise((resolve,reject)=>{
-       let q=data.filter((item)=>{return item.roll==data1.roll});
-        alert(q)
-       if(q.length==0){
-        resolve("Yes Available")
+  const addData = (data1) => {
+    adddatafn(data, setData, data1);
+  };
 
-       }
-       else{
-        reject("already taken")
-       }
-    });
+  const search = (roll) => {
+    return searchData(data, roll);
+  };
 
-    pr.then((message)=>{
-      let m={
-        name:data1.name,
-        addr:data1.addr,
-        phone:data1.phone,
-        roll:data1.roll,
-      }
-      setData([...data,m])
-      alert(message+m.roll)
-    }).catch((message)=>{
-      alert(message);
-    })
-  }
- 
-  
-
-  const search=(roll)=>{
-    return data.filter((item)=>{return item.roll==roll});
-  }
-
-  let [data,setData]=useState([{
-    name:"Grishma",
-    roll:181105027,
-    addr:"Margao",
-    phone:73877
-  },{
-    name:"Gianna",
-    roll:181105028,
-    addr:"panaji",
-    phone:73723
-  }])
+  let [data, setData] = useState(AppData);
 
   return (
     <>
       <Navbar />
       <Switch>
-        <Route exact path='/add' ><Add addData={addData} /></Route>
-        <Route path='/search'><Search search={search} onDelete={onDelete} /></Route>
-        <Route path='/update'><Update onUpdate={onUpdate} /></Route>
-        <Route path='/show'><Stutable data={data} onDelete={onDelete}  /></Route>
+        <Route exact path="/add">
+          <Add addData={addData} onUpdate={onUpdate} />
+        </Route>
+        <Route path="/search">
+          <Search search={search} onDelete={onDelete} />
+        </Route>
+        <Route path="/show">
+          <Stutable data={data} onDelete={onDelete} />
+        </Route>
       </Switch>
-     
     </>
   );
 }
