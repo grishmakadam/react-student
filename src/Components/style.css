@@ -39,8 +39,7 @@
 
 .container{
     margin:10px auto;
-    width:90%;
-    
+    width:90%;   
 }
 
 
@@ -49,9 +48,8 @@
     grid-template-columns: repeat(6,1fr);
 
     background-color: white;
-   
 }
- .thead li{
+ .thead th{
     padding:5px 20px;
     font-size: 1.1rem;
     box-sizing: border-box;

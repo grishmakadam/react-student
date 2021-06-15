@@ -1,19 +1,25 @@
-import React from 'react'
-import './style.css'
-import {Add} from './Add.js'
-import {useState} from 'react'
-import {NavLink} from 'react-router-dom'
+import React from "react";
+import "./style.css";
+import {NavLink} from "react-router-dom";
+import routingData from "../data/routingData";
 
 export const Navbar = () => {
-   
-    return (
-        <div className="navbar">
-            <ul>
-                <li><NavLink to='/add' activeClassName="li" >Insert</NavLink></li>
-                <li><NavLink to='/search' activeClassName='li'>Search</NavLink></li>
-                {/* <NavLink to='/update' className='li'><li>Update</li></NavLink> */}
-                <li><NavLink to='/show' activeClassName="li">Show All </NavLink></li>
-            </ul>
-        </div>
-    )
-}
+  return (
+    <nav className="navbar">
+      <ul>
+        {
+          // reusing component
+          routingData.map((route, i) => {
+            return (
+              <li key={i}>
+                <NavLink to={route.page} activeClassName="li">
+                  {route.title}
+                </NavLink>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+  );
+};
